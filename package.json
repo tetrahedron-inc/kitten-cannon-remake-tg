@@ -1,0 +1,20 @@
+{
+  "name": "kitten-cannon-remake-tg",
+  "version": "1.0.0",
+  "description": "Just an attempt to remake a game \r i used to play a lot in my childhood.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.mjs",
+    "start": "node src/server.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "zod": "^4.3.6"
+  }
+}

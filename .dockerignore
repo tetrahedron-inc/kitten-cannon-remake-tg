@@ -4,3 +4,7 @@ ref_images
 node_modules
 test.js
 .env
+.git
+.gitignore
+
+

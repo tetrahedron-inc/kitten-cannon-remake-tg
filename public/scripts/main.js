@@ -19,6 +19,7 @@ import Timer from "./Game/Timer.js";
 import SoundManager from "./Game/SoundManager.js";
 import Renderer from "./Lib/Renderer/Renderer.js";
 import Camera2D from "./Lib/Camera2D/Camera2D.js";
+import api from "./api.js";
 //-[/Imports]------------------------------------------
 
 
@@ -33,7 +34,7 @@ window.onload = main;
 
 
 // disables console.log
-console.log = () => { }
+// console.log = () => { }
 
 
 //-[Global Variables]------------------------------------------
@@ -52,6 +53,7 @@ let how_to_play_screen;
 let credits_screen;
 
 // general purpose (ownership unknown)
+let highscores = []; // highscore of all users.
 let highest_distance_travelled_px = 0;
 let distance_travelled_px = 0;
 let should_reset = false;
@@ -112,6 +114,21 @@ async function preload() {
 
     sound_manager = new SoundManager();
     let proms = [];
+    proms.push(new Promise(async (resolve, reject) => {
+        const highscore = await api.getMyHighScore();
+        let user_id = null;
+        if(highscore && highscore.ok && highscore.result && (highscore.result.length != 0)) {
+            highest_distance_travelled_px = highscore.result[0]?.score;
+            user_id = highscore.result[0]?.user?.id;
+        }
+
+        const all_highscores = await api.getGameHighScores();
+        if(all_highscores && all_highscores.ok && all_highscores.result && (all_highscores.result.length != 0)) {
+            highscores = all_highscores.result;
+        }
+        console.log('highest_distance_travelled_px: ', highest_distance_travelled_px)
+        resolve();
+    }));
     proms.push(new Promise(async (resolve, reject) => {
         game_sprite = await new Sprite("assets/sprite_sheet/kitty_cannon_dat").load();
         resolve();
@@ -524,6 +541,13 @@ function hide_buttons() {
 function handle_highScore() {
     if (distance_travelled_px > highest_distance_travelled_px) {
         highest_distance_travelled_px = distance_travelled_px;
+        const score = Math.round(highest_distance_travelled_px / pixel_per_feet);
+        // SetHighscore
+        api.setGameScore(score).then((res)=>{
+            console.log('highscore set: ', score);
+        }).catch(err=>{
+            console.log('[handle_highScore] error: ', err)
+        })
     }
 }
 
