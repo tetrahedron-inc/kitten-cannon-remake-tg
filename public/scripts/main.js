@@ -34,7 +34,7 @@ window.onload = main;
 
 
 // disables console.log
-// console.log = () => { }
+console.log = () => { }
 
 
 //-[Global Variables]------------------------------------------
