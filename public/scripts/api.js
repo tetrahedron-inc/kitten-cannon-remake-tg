@@ -8,7 +8,7 @@ class Api {
         if(!('tkn' in search_params)) {
             console.log("Hey Hacker :)\nYou're noob.\nThis is really simple game not that secure.");
         } else {
-            this.#auth_token = search_params['tkn'];
+            this.#auth_token = search_params['tkn'].split('#')[0];
         }
     }
 
