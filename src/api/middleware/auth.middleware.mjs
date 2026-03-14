@@ -48,6 +48,7 @@ const auth_middleware = async (request, response, next) => {
         next();
     } catch(error) {
         console.log('[auth_middleware] error', error);
+        console.log("[auth_middleware] request.headers['authorization']", request.headers['authorization']);
         if(error instanceof jwt.JsonWebTokenError) {
             return response.status(401).json({
                 message: 'You Noob 🤭',
