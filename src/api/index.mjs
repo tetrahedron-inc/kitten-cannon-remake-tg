@@ -59,7 +59,7 @@ apiRouter.post('/setGameScore', async (request, response) => {
 // get globally top players and their scores.
 apiRouter.get('/getGameHighScores', async (request, response) => {
     const { id: game_id } = await Games.getFromShortName_Cached(constants.game_short_name);
-    const toppers = await GamesUsersHighscore.getTopScores(game_id, 6);
+    const toppers = await GamesUsersHighscore.getTopScores(game_id, 8);
     response.json(toppers);
 });
 
