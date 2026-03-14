@@ -44,6 +44,7 @@ export default class GamesUsersHighscore {
         .eq('game_id', game_id);
 
         if(updated.error) {
+            console.error(`ERROR: GamesUsersHighscore::setScore(${game_id}, ${user_id}, ${score})  updated.error :`, updated.error);
             return false;
         }
         return true;
