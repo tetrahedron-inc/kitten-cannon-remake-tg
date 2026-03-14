@@ -10,6 +10,7 @@ export default class MenuScreen {
         this.onStartClick = () => { };
         this.onHelpClick = () => { };
         this.onCreditsClick = () => { };
+        this.onLeaderboardClick = () => { };
         this.buttons = {};
         this.visible = true;
         this.__create_buttons();
@@ -17,13 +18,13 @@ export default class MenuScreen {
     __create_buttons() {
         let canvas_w_half = this.__ctx.canvas.width / 2;
         let canvas_h_half = this.__ctx.canvas.height / 2;
-        let font_size = 70;
+        let font_size = 60;
         this.__ctx.font = font_size + "px " + this.__button_font_family;
 
         { // Start button
             let text = "Start";
             let font_width = this.__ctx.measureText(text).width/2; // why?
-            let position = new Vector2D(canvas_w_half - font_width / 2, canvas_h_half + 30);
+            let position = new Vector2D(canvas_w_half - font_width / 2, canvas_h_half + 20);
             this.buttons["start"] = new Button(this.__ctx, text, position, 60, "#000", this.__button_font_family);
             this.buttons["start"].onClick = () => {
                 this.onStartClick();
@@ -33,7 +34,7 @@ export default class MenuScreen {
         { // how to play button
             let text = "How To Play";
             let font_width = this.__ctx.measureText(text).width/2;
-            let position = new Vector2D(canvas_w_half - font_width / 2, canvas_h_half + 30 + 80);
+            let position = new Vector2D(canvas_w_half - font_width / 2, canvas_h_half + 20 + 70);
             this.buttons["howToPlay"] = new Button(this.__ctx, text, position, 60, "#000", this.__button_font_family);
             this.buttons["howToPlay"].onClick = () => {
                 this.onHelpClick();
@@ -42,10 +43,20 @@ export default class MenuScreen {
         { // how to play button
             let text = "Credits";
             let font_width = this.__ctx.measureText(text).width/2;
-            let position = new Vector2D(canvas_w_half - font_width / 2, canvas_h_half + 30 + 160);
+            let position = new Vector2D(canvas_w_half - font_width / 2, canvas_h_half + 20 + 140);
             this.buttons["credits"] = new Button(this.__ctx, text, position, 60, "#000", this.__button_font_family);
             this.buttons["credits"].onClick = () => {
                 this.onCreditsClick();
+            }
+        }
+
+        { // how to play button
+            let text = "Leaderboard";
+            let font_width = this.__ctx.measureText(text).width/2;
+            let position = new Vector2D(canvas_w_half - font_width / 2, canvas_h_half + 20 + 210);
+            this.buttons["leaderboard"] = new Button(this.__ctx, text, position, 60, "#000", this.__button_font_family);
+            this.buttons["leaderboard"].onClick = () => {
+                this.onLeaderboardClick();
             }
         }
 

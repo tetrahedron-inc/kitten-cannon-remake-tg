@@ -1,7 +1,7 @@
 import { Vector2D } from "../../../Lib/Math/Vector2D.js";
 import Button from "../Button.js";
 
-export default class Creditscreen {
+export default class CreditScreen {
     constructor(canvas2D_context, screens_sprite, button_font_family) {
         this.__ctx = canvas2D_context;
         this.__sprite_sheet = screens_sprite;

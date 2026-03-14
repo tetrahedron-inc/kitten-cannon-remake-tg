@@ -14,12 +14,13 @@ import HeightDisplay from "./Game/Objects/HeightDisplay.js";
 import MenuScreen from "./Game/UI/Screens/MenuScreen.js";
 import HowToPlayScreen from "./Game/UI/Screens/HowToPlayScreen.js";
 import { linearMap, randomInt } from "./Lib/Math/functions.js";
-import Creditscreen from "./Game/UI/Screens/CreditsScreen.js";
+import CreditScreen from "./Game/UI/Screens/CreditsScreen.js";
 import Timer from "./Game/Timer.js";
 import SoundManager from "./Game/SoundManager.js";
 import Renderer from "./Lib/Renderer/Renderer.js";
 import Camera2D from "./Lib/Camera2D/Camera2D.js";
 import api from "./api.js";
+import LeaderboardScreen from "./Game/UI/Screens/LeaderboardScreen.js";
 //-[/Imports]------------------------------------------
 
 
@@ -51,6 +52,7 @@ let score_board;
 let menu_screen;
 let how_to_play_screen;
 let credits_screen;
+let leaderboard_screen;
 
 // general purpose (ownership unknown)
 
@@ -77,6 +79,7 @@ const GAME_SCREENS_E = {
     "Play": 0b1 << 3,
     "Help": 0b1 << 4,
     "Credits": 0b1 << 5,
+    "Leaderboard": 0b1 << 6,
 };
 const pixel_per_feet = 100;
 const OBJECT_GAP = 800;
@@ -125,7 +128,7 @@ async function preload() {
 
         const all_highscores = await api.getGameHighScores();
         if(all_highscores && (all_highscores.length != 0)) {
-            highscores = all_highscores.result;
+            highscores = all_highscores;
         }
         resolve();
     }));
@@ -146,7 +149,8 @@ async function preload() {
 
     menu_screen = new MenuScreen(ctx, screens_sprite, "Nicotine");
     how_to_play_screen = new HowToPlayScreen(ctx, screens_sprite, "Nicotine");
-    credits_screen = new Creditscreen(ctx, screens_sprite, "Nicotine");
+    credits_screen = new CreditScreen(ctx, screens_sprite, "Nicotine");
+    leaderboard_screen = new LeaderboardScreen(ctx, screens_sprite, "Nicotine", highscores);
 
 
     reset_game();
@@ -218,6 +222,11 @@ function add_button_events() {
         CURRENT_GAME_SCREEN = GAME_SCREENS_E.Credits;
         max_skip_frames = skip_frames = 60;
     }
+    
+    menu_screen.onLeaderboardClick = function () {
+        CURRENT_GAME_SCREEN = GAME_SCREENS_E.Leaderboard;
+        max_skip_frames = skip_frames = 60;
+    }
 
     how_to_play_screen.onBackClick = function () {
         CURRENT_GAME_SCREEN = GAME_SCREENS_E.Menu;
@@ -225,6 +234,11 @@ function add_button_events() {
     }
 
     credits_screen.onBackClick = function () {
+        CURRENT_GAME_SCREEN = GAME_SCREENS_E.Menu;
+        max_skip_frames = skip_frames = 60;
+    }
+
+    leaderboard_screen.onBackClick = function () {
         CURRENT_GAME_SCREEN = GAME_SCREENS_E.Menu;
         max_skip_frames = skip_frames = 60;
     }
@@ -309,6 +323,9 @@ function gameLoop() {
             break;
         case GAME_SCREENS_E.Credits:
             render_screen(credits_screen);
+            break;
+        case GAME_SCREENS_E.Leaderboard:
+            render_screen(leaderboard_screen);
             break;
         case GAME_SCREENS_E.Help:
             render_screen(how_to_play_screen);
