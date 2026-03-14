@@ -19,11 +19,27 @@ class Api {
         return result;
     }
 
+    /**
+     * 
+     * 
+     * @returns {Promise<Array<{
+     *  user_id: number;
+     *  first_name: string;
+     *  username: string | null;
+     *  score: number;
+     * }>>}
+     */
     async getGameHighScores() {
         const result = await this.#call('getGameHighScores');
         return result;
     }
 
+    /**
+     * 
+     * @returns {Promise<{
+     *  highscore: number;
+     * }>}
+     */    
     async getMyHighScore() {
         const result = await this.#call('getMyHighScore');
         return result;

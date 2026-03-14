@@ -1,6 +1,6 @@
 import e from "express";
 import env from "./config/env.mjs";
-import apiRouter from "./api/inds.mjs";
+import apiRouter from "./api/index.mjs";
 
 const app = e();
 app.use(e.json());

@@ -53,6 +53,8 @@ let how_to_play_screen;
 let credits_screen;
 
 // general purpose (ownership unknown)
+
+/** @type {Array<{user_id: number;first_name: string; username: string | null; score: number;}>} */
 let highscores = []; // highscore of all users.
 let highest_distance_travelled_px = 0;
 let distance_travelled_px = 0;
@@ -114,21 +116,20 @@ async function preload() {
 
     sound_manager = new SoundManager();
     let proms = [];
+
     proms.push(new Promise(async (resolve, reject) => {
-        const highscore = await api.getMyHighScore();
-        let user_id = null;
-        if(highscore && highscore.ok && highscore.result && (highscore.result.length != 0)) {
-            highest_distance_travelled_px = highscore.result[0]?.score;
-            user_id = highscore.result[0]?.user?.id;
+        const { highscore } = await api.getMyHighScore();
+        if(highscore) {
+            highest_distance_travelled_px = highscore * pixel_per_feet;
         }
 
         const all_highscores = await api.getGameHighScores();
-        if(all_highscores && all_highscores.ok && all_highscores.result && (all_highscores.result.length != 0)) {
+        if(all_highscores && (all_highscores.length != 0)) {
             highscores = all_highscores.result;
         }
-        console.log('highest_distance_travelled_px: ', highest_distance_travelled_px)
         resolve();
     }));
+
     proms.push(new Promise(async (resolve, reject) => {
         game_sprite = await new Sprite("assets/sprite_sheet/kitty_cannon_dat").load();
         resolve();
@@ -147,7 +148,6 @@ async function preload() {
     how_to_play_screen = new HowToPlayScreen(ctx, screens_sprite, "Nicotine");
     credits_screen = new Creditscreen(ctx, screens_sprite, "Nicotine");
 
-    highest_distance_travelled_px = 0;
 
     reset_game();
 
