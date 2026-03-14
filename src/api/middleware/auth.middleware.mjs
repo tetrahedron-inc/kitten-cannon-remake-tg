@@ -15,7 +15,7 @@ import env from "../../config/env.mjs";
 const auth_middleware = async (request, response, next) => {
     // Auth Middleware
     try {
-        console.log('[auth_middleware] authorization header: ', request.headers['authorization']);
+        // console.log('[auth_middleware] authorization header: ', request.headers['authorization']);
         const token = decode_token(request.headers['authorization'].split(' ')[1].trim());
         const decoded = jwt.verify(token.tkn, env.JWT_SECRET);
         if(!decoded) {
@@ -42,7 +42,9 @@ const auth_middleware = async (request, response, next) => {
                 title: z.string().optional(),
             }),
         })), decoded);
-        // console.log('request.data: ', request.data);
+
+        console.log('[auth_middleware] Requested Game: ', JSON.stringify(request.data));
+
         next();
     } catch(error) {
         console.log('[auth_middleware] error', error);

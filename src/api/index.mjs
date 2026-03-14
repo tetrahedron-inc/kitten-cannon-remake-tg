@@ -50,6 +50,10 @@ apiRouter.post('/setGameScore', async (request, response) => {
             console.error(`[POST /setGameScore] Failed GamesUsersHighscore.setScore(${game_id}, ${data.user_id}, ${score})`)
         }
     }
+
+    
+    console.log(`[POST /setGameScore]  new score : ${score}`, 'request.data:', JSON.stringify(request.data))
+
     response.json({
         ok: true,
         result: 'ok',
