@@ -52,7 +52,7 @@ export default class LeaderboardScreen {
         this.__ctx.font = `${font_size}px monospace,"Courier New", Courier`;
 
         for(let idx = 0; idx < this.__leaderboard.length; idx++) {
-            const username = this.__leaderboard[idx].username || "------------";
+            const username = this.__leaderboard[idx].username ? ('@' + this.__leaderboard[idx].username) :  "------------";
             const firstname = this.__leaderboard[idx].first_name;
             const score = this.__leaderboard[idx].score;
             this.__ctx.fillText(`🧨 ${idx + 1} `, 140, 250 + (font_size + 20) * idx);
